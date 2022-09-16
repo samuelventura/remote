@@ -35,4 +35,7 @@ iex(13)> :erlang.system_info(:version) |> List.to_string()
 #cat .tool-versions
 elixir 1.13.4-otp-25
 erlang 25.0.2
+#nerves has no OTP_VERSION file
+iex(target@172.31.255.9)4> ls "/srv/erlang/releases/25"          
+0.1.0              COOKIE             start_erl.data
 ```
