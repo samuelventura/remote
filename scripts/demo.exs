@@ -1,7 +1,6 @@
 #mix run scripts/demo.exs
 alias Remote.Builder
 
-home = System.user_home!()
 folder = "/tmp/builder"
 tools = [{"elixir", "1.13.4-otp-25"}, {"erlang", "25.0.2"}]
 files = nil
@@ -10,16 +9,10 @@ deps = [
 ]
 Builder.build folder, tools, files, deps
 
-paths = "#{home}/.asdf/shims:#{home}/.asdf/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 File.cd!(folder)
-System.cmd("bash", ["-c", "iex install.exs"], env: [
-  {"PWD", folder},
-  {"PATH", paths},
-  {"ROOTDIR", nil}, #/home/samuel/.asdf/installs/erlang/25.0.4
-  {"BINDIR", nil}, #/home/samuel/.asdf/installs/erlang/25.0.4/erts-13.0.4/bin
-  {"MIX_HOME", nil}, #/home/samuel/.asdf/installs/elixir/1.14-otp-25/.mix
-  {"MIX_ARCHIVES", nil}, #/home/samuel/.asdf/installs/elixir/1.14-otp-25/.mix/archives
-])
+home = System.user_home!()
+paths = "#{home}/.asdf/shims:#{home}/.asdf/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+System.cmd("bash", ["-c", "iex install.exs"], env: [{"PATH", paths}])
 
 #cd /tmp/builder
 #ls -a /tmp/builder
