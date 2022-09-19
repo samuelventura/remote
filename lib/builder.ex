@@ -1,5 +1,4 @@
 defmodule Remote.Builder do
-  # mix run scripts/demo.exs
   def build(folder, tools, _files, deps) do
     File.mkdir_p!(folder)
     tools = build_tools(tools, [])
@@ -23,12 +22,8 @@ defmodule Remote.Builder do
     elixir_version = System.version()
     otp_release = System.otp_release()
     releases = [
-      elixir_version,
-      erlang_version,
-      otp_release] |> Enum.join("\\n")
-    env = System.get_env()
-      |> Enum.map(fn {k,v} -> "\#{k}: \#{v}\n" end)
-    File.write!(Path.join(folder, "env"), env)
+      "elixir \#{elixir_version}-otp-\#{otp_release}",
+      "erlang \#{erlang_version}"] |> Enum.join("\\n")
     build = Path.join(folder, "build")
     paths = Path.join(folder, "paths")
     versions = Path.join(folder, "versions")
@@ -36,9 +31,11 @@ defmodule Remote.Builder do
     Mix.install([
       #{deps}
     ])
+    start = String.length(build) + 1
     code_paths = :code.get_path()
       |> Enum.map(&List.to_string/1)
       |> Enum.filter(&(String.starts_with?(&1, build)))
+      |> Enum.map(&(String.slice(&1, start, 9999)))
       |> Enum.join("\\n")
     File.write!(paths, [code_paths, "\\n"])
     File.write!(versions, [releases, "\\n"])
