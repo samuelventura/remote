@@ -11,6 +11,10 @@ Elixir remote control
 ## Development
 
 ```elixir
+# /home/samuel/.cache/mix/installs/elixir-1.14.0-erts-13.0.4
+# ./Library/Caches/mix/installs/
+# overriden with MIX_INSTALL_DIR
+
 otp_release = :erlang.system_info(:otp_release)
 root_dir = :code.root_dir()
 release_path = Path.join([root_dir, "releases", otp_release, "OTP_VERSION"])
